@@ -2,7 +2,7 @@ type NewsCardProps = {
 	title: string;
 	details: string;
 	image: string;
-	onReadMore?: () => void;
+	onReadMore: () => void;
 };
 
 const getSummary = (text: string, maxLength = 80) =>
