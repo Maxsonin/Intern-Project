@@ -1,19 +1,12 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Navbar from "@/shared/components/layout/Navbar";
 
 const MainLayout = () => {
 	return (
 		<div>
-			<header>
-				<h1>
-					<Link to="/">Intern News</Link>
-				</h1>
-				<nav>
-					<Link to="news">News</Link>
-					<Link to="signup">Signup</Link>
-				</nav>
-			</header>
+			<Navbar />
 
-			<main>
+			<main style={{ padding: "2rem" }}>
 				<Outlet />
 			</main>
 		</div>

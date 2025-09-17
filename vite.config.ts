@@ -7,10 +7,12 @@ import viteCompression from "vite-plugin-compression";
 import Inspect from "vite-plugin-inspect";
 import svgr from "vite-plugin-svgr";
 import virtualModules from "./src/shared/plugins/virtualModules";
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [
+		tailwindcss(),
 		react(),
 		virtualModules(),
 		svgr(),
