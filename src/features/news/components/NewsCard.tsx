@@ -1,3 +1,6 @@
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
+
 type NewsCardProps = {
 	title: string;
 	details: string;
@@ -13,7 +16,12 @@ const NewsCard = ({ title, details, image, onReadMore }: NewsCardProps) => {
 
 	return (
 		<div className="shadow-md rounded-2xl overflow-hidden flex flex-col w-90">
-			<img src={image} alt={title} className="w-full h-40 object-cover" />
+			<LazyLoadImage
+				src={image}
+				alt={title}
+				className="w-full h-40 object-cover"
+				effect="blur"
+			/>
 
 			<div className="p-4 flex flex-col">
 				<h2 className="text-lg font-semibold">{title}</h2>
