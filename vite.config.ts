@@ -1,4 +1,5 @@
 import path from "node:path";
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig, type PluginOption } from "vite";
@@ -7,7 +8,6 @@ import viteCompression from "vite-plugin-compression";
 import Inspect from "vite-plugin-inspect";
 import svgr from "vite-plugin-svgr";
 import virtualModules from "./src/shared/plugins/virtualModules";
-import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
