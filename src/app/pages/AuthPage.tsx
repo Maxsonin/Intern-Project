@@ -1,7 +1,9 @@
+import AuthForm from "@/features/auth/components/AuthForm";
+
 const AuthPage = () => {
 	return (
-		<div>
-			<h1>Auth Page</h1>
+		<div className="flex items-center justify-center min-h-screen">
+			<AuthForm />
 		</div>
 	);
 };
