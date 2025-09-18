@@ -1,15 +1,17 @@
-import { StrictMode } from "react";
+import { lazy, StrictMode, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
-import NewsPage from "./pages/NewsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import "./index.css";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
+
+// Lazy load only NewsPage
+const NewsPage = lazy(() => import("./pages/NewsPage"));
 
 const router = createBrowserRouter([
 	{
@@ -25,6 +27,8 @@ const router = createBrowserRouter([
 
 createRoot(rootElement).render(
 	<StrictMode>
-		<RouterProvider router={router} />
+		<Suspense fallback={<div className="p-4">Loading...</div>}>
+			<RouterProvider router={router} />
+		</Suspense>
 	</StrictMode>,
 );

@@ -21,7 +21,7 @@ const newsData: News[] = [
 			  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
 			  occaecat cupidatat non proident, sunt in culpa qui officia
 			   deserunt mollit anim id est laborum.`,
-		image: "https://picsum.photos/400/200?random=1",
+		image: `https://picsum.photos/400/200?random=${Math.floor(Math.random() * 1000)}`,
 	},
 	{
 		id: 2,
@@ -34,7 +34,7 @@ const newsData: News[] = [
 			  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
 			  occaecat cupidatat non proident, sunt in culpa qui officia
 			   deserunt mollit anim id est laborum.`,
-		image: "https://picsum.photos/400/200?random=1",
+		image: `https://picsum.photos/400/200?random=${Math.floor(Math.random() * 1000)}`,
 	},
 ];
 
