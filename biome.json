@@ -7,7 +7,14 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**", "!node_modules/**/*", "!build/**/*"]
+		"includes": [
+			"**",
+			"!node_modules/**/*",
+			"!build/**/*",
+			"!dist/**/*",
+			"!.vercel/**/*",
+			"!.github/**/*"
+		]
 	},
 	"formatter": {
 		"enabled": true,
