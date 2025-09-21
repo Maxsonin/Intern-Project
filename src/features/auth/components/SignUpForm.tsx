@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
 import { type SignUpSchema, signUpSchema } from "../schemas/authForm.schema";
+import { useAuthStore } from "../store/authStore";
 
 const SignUpForm = () => {
+	const saveAuthData = useAuthStore((state) => state.saveAuthData);
 	const {
 		register,
 		handleSubmit,
@@ -13,10 +16,26 @@ const SignUpForm = () => {
 		resolver: zodResolver(signUpSchema),
 	});
 
-	const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
+	const fields: {
+		name: keyof SignUpSchema;
+		label: string;
+		type?: string;
+		placeholder: string;
+	}[] = [
+		{ name: "name", label: "Name", placeholder: "Enter your name" },
+		{ name: "email", label: "Email", placeholder: "Enter your email" },
+		{
+			name: "password",
+			label: "Password",
+			type: "password",
+			placeholder: "Enter your password",
+		},
+	];
+
+	const onSubmit: SubmitHandler<SignUpSchema> = async (data: SignUpSchema) => {
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-			console.log(data);
+			saveAuthData({ name: data.name, email: data.email });
+			console.log("SignUp Data Saved:", data);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setError("root", { message: error.message });
@@ -28,33 +47,20 @@ const SignUpForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-			<Input
-				label="Name"
-				register={register("name")}
-				error={errors.name}
-				placeholder="Enter your name"
-			/>
-			<Input
-				label="Email"
-				register={register("email")}
-				error={errors.email}
-				placeholder="Enter your email"
-			/>
-			<Input
-				label="Password"
-				type="password"
-				register={register("password")}
-				error={errors.password}
-				placeholder="Enter your password"
-			/>
+			{fields.map(({ name, label, type, placeholder }) => (
+				<Input
+					key={name}
+					label={label}
+					type={type}
+					register={register(name)}
+					error={errors[name]}
+					placeholder={placeholder}
+				/>
+			))}
 
-			<button
-				type="submit"
-				disabled={isSubmitting}
-				className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-			>
-				{isSubmitting ? "Loading..." : "Sign Up"}
-			</button>
+			<Button type="submit" disabled={isSubmitting} fullWidth>
+				Sign Up
+			</Button>
 		</form>
 	);
 };
