@@ -1,4 +1,5 @@
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Button from "@/shared/components/ui/Button";
 import "react-lazy-load-image-component/src/effects/blur.css";
 
 type NewsCardProps = {
@@ -26,13 +27,9 @@ const NewsCard = ({ title, details, image, onReadMore }: NewsCardProps) => {
 			<div className="p-4 flex flex-col">
 				<h2 className="text-lg font-semibold">{title}</h2>
 				<p className="text-gray-600 mb-3">{summary}</p>
-				<button
-					type="button"
-					onClick={onReadMore}
-					className="mt-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-				>
+				<Button onClick={onReadMore} fullWidth>
 					Read More
-				</button>
+				</Button>
 			</div>
 		</div>
 	);

@@ -1,10 +1,12 @@
+import { createPortal } from "react-dom";
+
 type ModalProps = {
 	onClose: () => void;
 	children: React.ReactNode;
 };
 
 const Modal = ({ onClose, children }: ModalProps) => {
-	return (
+	return createPortal(
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55">
 			<div className="bg-white rounded-2xl shadow-xl max-w-xl w-full p-8 relative">
 				<button
@@ -16,7 +18,8 @@ const Modal = ({ onClose, children }: ModalProps) => {
 				</button>
 				{children}
 			</div>
-		</div>
+		</div>,
+		document.body,
 	);
 };
 

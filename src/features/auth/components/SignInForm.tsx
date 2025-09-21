@@ -1,9 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
 import { type SignInSchema, signInSchema } from "../schemas/authForm.schema";
+import { useAuthStore } from "../store/authStore";
 
 const SignInForm = () => {
+	const saveAuthData = useAuthStore((state) => state.saveAuthData);
 	const {
 		register,
 		handleSubmit,
@@ -13,10 +16,30 @@ const SignInForm = () => {
 		resolver: zodResolver(signInSchema),
 	});
 
-	const onSubmit: SubmitHandler<SignInSchema> = async (data) => {
+	const fields: {
+		name: keyof SignInSchema;
+		label: string;
+		type?: string;
+		placeholder: string;
+	}[] = [
+		{
+			name: "email",
+			label: "Email",
+			type: "email",
+			placeholder: "Enter your email",
+		},
+		{
+			name: "password",
+			label: "Password",
+			type: "password",
+			placeholder: "Enter your password",
+		},
+	];
+
+	const onSubmit: SubmitHandler<SignInSchema> = async (data: SignInSchema) => {
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 1000));
-			console.log(data);
+			saveAuthData({ email: data.email, name: data.email });
+			console.log("SignIn Data Saved:", data);
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setError("root", { message: error.message });
@@ -28,27 +51,20 @@ const SignInForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-			<Input
-				label="Email"
-				register={register("email")}
-				error={errors.email}
-				placeholder="Enter your email"
-			/>
-			<Input
-				label="Password"
-				type="password"
-				register={register("password")}
-				error={errors.password}
-				placeholder="Enter your password"
-			/>
+			{fields.map(({ name, label, type, placeholder }) => (
+				<Input
+					key={name}
+					label={label}
+					type={type}
+					register={register(name)}
+					error={errors[name]}
+					placeholder={placeholder}
+				/>
+			))}
 
-			<button
-				type="submit"
-				disabled={isSubmitting}
-				className="bg-blue-500 text-white px-4 py-2 rounded w-full"
-			>
-				{isSubmitting ? "Loading..." : "Sign In"}
-			</button>
+			<Button type="submit" disabled={isSubmitting} fullWidth>
+				Sign In
+			</Button>
 		</form>
 	);
 };
