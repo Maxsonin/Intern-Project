@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
 type ModalProps = {
@@ -6,9 +7,23 @@ type ModalProps = {
 };
 
 const Modal = ({ onClose, children }: ModalProps) => {
+	// Close modal on ESC key press
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Escape") {
+				onClose();
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => {
+			document.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [onClose]);
+
 	return createPortal(
 		<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55">
-			<div className="bg-white rounded-2xl shadow-xl max-w-xl w-full p-8 relative">
+			<div className="bg-white rounded-2xl shadow-xl w-500 p-8 relative">
 				<button
 					type="button"
 					onClick={onClose}

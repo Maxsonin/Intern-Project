@@ -1,55 +1,44 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import NewsCard from "@/features/news/components/NewsCard";
+import { useArticleContent } from "@/features/news/hooks/useArticleContent";
+import { useNewsfeed } from "@/features/news/hooks/useNewsfeed";
+import type { News } from "@/features/news/types/news.type";
 import Modal from "@/shared/components/ui/Modal";
-
-type News = {
-	id: number;
-	title: string;
-	details: string;
-	image: string;
-};
-
-const newsData: News[] = [
-	{
-		id: 1,
-		title: "New AI breakthrough",
-		details: `lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			 Sed do eiusmod tempor incididunt ut labore et dolore magna 
-			 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-			 ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-			 Duis aute irure dolor in reprehenderit in voluptate velit
-			  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-			  occaecat cupidatat non proident, sunt in culpa qui officia
-			   deserunt mollit anim id est laborum.`,
-		image: `https://picsum.photos/400/200?random=${Math.floor(Math.random() * 1000)}`,
-	},
-	{
-		id: 2,
-		title: "New elephant sanctuary opens",
-		details: `lorem ipsum dolor sit amet, consectetur adipiscing elit.
-			 Sed do eiusmod tempor incididunt ut labore et dolore magna 
-			 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
-			 ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-			 Duis aute irure dolor in reprehenderit in voluptate velit
-			  esse cillum dolore eu fugiat nulla pariatur. Excepteur sint 
-			  occaecat cupidatat non proident, sunt in culpa qui officia
-			   deserunt mollit anim id est laborum.`,
-		image: `https://picsum.photos/400/200?random=${Math.floor(Math.random() * 1000)}`,
-	},
-];
 
 const NewsPage = () => {
 	const [selectedNews, setSelectedNews] = useState<News | null>(null);
+	const [searchParams] = useSearchParams();
+	const url = searchParams.get("url") || undefined;
+	const force = searchParams.get("force") === "1";
+
+	const { newsfeed, isNewsfeedLoading, isNewsfeedError } = useNewsfeed(
+		url,
+		force,
+	);
+
+	const { articleContent, isArticleContentLoading, isArticleContentError } =
+		useArticleContent(selectedNews?.link);
+
+	if (isNewsfeedLoading) {
+		return <div className="p-4">Loading news...</div>;
+	}
+
+	if (isNewsfeedError) {
+		return (
+			<div className="p-4 text-red-500">Error happened when fetching news</div>
+		);
+	}
 
 	return (
-		<div className="justify-self-center">
-			<div className="grid grid-cols-5 gap-6">
-				{newsData.map((news) => (
+		<section className="p-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+				{newsfeed.map((news) => (
 					<NewsCard
 						key={news.id}
 						title={news.title}
-						details={news.details}
-						image={news.image}
+						details={news.description}
+						image={news.thumbnail}
 						onReadMore={() => setSelectedNews(news)}
 					/>
 				))}
@@ -57,18 +46,30 @@ const NewsPage = () => {
 
 			{selectedNews && (
 				<Modal onClose={() => setSelectedNews(null)}>
-					<div>
+					<article>
+						<h2 className="text-2xl font-bold mb-4">{selectedNews.title}</h2>
+
 						<img
-							src={selectedNews.image}
+							src={selectedNews.thumbnail}
 							alt={selectedNews.title}
-							className="w-full h-64 object-cover rounded-xl mb-4"
+							className="w-40 h-auto object-cover rounded-xl ml-4 mb-4 float-right"
 						/>
-						<h2 className="text-2xl font-bold mb-2">{selectedNews.title}</h2>
-						<p className="text-gray-700">{selectedNews.details}</p>
-					</div>
+
+						{isArticleContentLoading && <p>Loading content...</p>}
+
+						{isArticleContentError && (
+							<div className="p-4 text-red-500">
+								Error happened when fetching news
+							</div>
+						)}
+
+						{!isArticleContentLoading && (
+							<p className="text-gray-700">{articleContent.content}</p>
+						)}
+					</article>
 				</Modal>
 			)}
-		</div>
+		</section>
 	);
 };
 
