@@ -1,26 +1,23 @@
 import { create } from "zustand";
-
-type User = {
-	name: string;
-	email: string;
-};
+import type { User } from "../types/user.type";
 
 type AuthStore = {
 	isSignedIn: boolean;
 	user: User | null;
-	isLoading: boolean;
+	isAuthLoading: boolean;
 	saveAuthData: (user: User | null) => void;
+	setAuthLoading: (loading: boolean) => void;
 };
 
 export const useAuthStore = create<AuthStore>((set) => ({
 	isSignedIn: false,
 	user: null,
-	isLoading: false,
-
-	// save auth data (e.g., on login/signup)
+	isAuthLoading: true,
 	saveAuthData: (user) =>
 		set(() => ({
 			user,
-			isSignedIn: !!user,
+			isSignedIn: !!user && !!user.id,
+			isAuthLoading: false,
 		})),
+	setAuthLoading: (loading) => set({ isAuthLoading: loading }),
 }));

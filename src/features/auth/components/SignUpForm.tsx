@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import Button from "@/shared/components/ui/Button";
 import Input from "@/shared/components/ui/Input";
 import { type SignUpSchema, signUpSchema } from "../schemas/authForm.schema";
+import { signin, signup } from "../services/auth.service";
 import { useAuthStore } from "../store/authStore";
 
 const SignUpForm = () => {
@@ -15,6 +17,7 @@ const SignUpForm = () => {
 	} = useForm<SignUpSchema>({
 		resolver: zodResolver(signUpSchema),
 	});
+	const navigate = useNavigate();
 
 	const fields: {
 		name: keyof SignUpSchema;
@@ -32,16 +35,15 @@ const SignUpForm = () => {
 		},
 	];
 
-	const onSubmit: SubmitHandler<SignUpSchema> = async (data: SignUpSchema) => {
+	const onSubmit: SubmitHandler<SignUpSchema> = async (data) => {
 		try {
-			saveAuthData({ name: data.name, email: data.email });
-			console.log("SignUp Data Saved:", data);
+			await signup(data);
+			const user = await signin({ email: data.email, password: data.password });
+			saveAuthData(user);
+			navigate(-1);
 		} catch (error: unknown) {
-			if (error instanceof Error) {
-				setError("root", { message: error.message });
-			} else {
-				setError("root", { message: "An unexpected error occurred" });
-			}
+			if (error instanceof Error) setError("root", { message: error.message });
+			else setError("root", { message: "An unexpected error occurred" });
 		}
 	};
 
