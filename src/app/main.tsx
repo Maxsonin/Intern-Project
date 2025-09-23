@@ -4,6 +4,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 import "./index.css";
+import { AuthProvider } from "./providers/AuthProvider";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
@@ -14,7 +15,9 @@ createRoot(rootElement).render(
 	<StrictMode>
 		<QueryClientProvider client={queryClient}>
 			<Suspense fallback={<div className="p-4">Loading...</div>}>
-				<RouterProvider router={router} />
+				<AuthProvider>
+					<RouterProvider router={router} />
+				</AuthProvider>
 			</Suspense>
 		</QueryClientProvider>
 	</StrictMode>,
