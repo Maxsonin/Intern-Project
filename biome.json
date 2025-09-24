@@ -13,7 +13,9 @@
 			"!build/**/*",
 			"!dist/**/*",
 			"!.vercel/**/*",
-			"!.github/**/*"
+			"!.github/**/*",
+			"!public/**/*",
+			"!src/features/log/**/*"
 		]
 	},
 	"formatter": {

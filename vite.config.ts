@@ -2,7 +2,7 @@ import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
-import { defineConfig, type PluginOption, loadEnv, type ConfigEnv } from "vite";
+import { type ConfigEnv, defineConfig, loadEnv, type PluginOption } from "vite";
 import checker from "vite-plugin-checker";
 import viteCompression from "vite-plugin-compression";
 import Inspect from "vite-plugin-inspect";

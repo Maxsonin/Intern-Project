@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 declare global {
 	interface Window {
@@ -41,7 +41,7 @@ export const usePrebidLogger = () => {
 			listeners.forEach(({ event, callback }) => {
 				if (window.pbjs && "offEvent" in window.pbjs) {
 					// If Prebid supports removing listeners
-					// @ts-ignore
+					// @ts-expect-error
 					window.pbjs.offEvent(event, callback);
 				}
 			});

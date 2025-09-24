@@ -88,8 +88,8 @@ function checkUrlChange() {
 // Observe SPA navigation
 ["pushState", "replaceState"].forEach((method) => {
 	const orig = history[method];
-	history[method] = function () {
-		const result = orig.apply(this, arguments);
+	history[method] = function (...args) {
+		const result = orig.apply(this, args);
 		checkUrlChange();
 		return result;
 	};
