@@ -33,14 +33,28 @@ const adUnits = [
 			{ bidder: "bidmatic", params: { source: 886409 } },
 		],
 	},
+	{
+		code: "ad-frame-100",
+		mediaTypes: { banner: { sizes: [[300, 250]] } },
+		bids: [
+			{ bidder: "adtelligent", params: { aid: 350975 } },
+			{ bidder: "bidmatic", params: { source: 886409 } },
+		],
+	},
+	{
+		code: "ad-frame-101",
+		mediaTypes: { banner: { sizes: [[300, 250]] } },
+		bids: [
+			{ bidder: "adtelligent", params: { aid: 350975 } },
+			{ bidder: "bidmatic", params: { source: 886409 } },
+		],
+	},
 ];
 
 window.pbjs = window.pbjs || {};
 pbjs.que = pbjs.que || [];
 
-function initPrebid() {
-	pbjs.addAdUnits(adUnits);
-
+function reqBids() {
 	pbjs.requestBids({
 		timeout: 1000,
 		bidsBackHandler: () => {
@@ -54,6 +68,12 @@ function initPrebid() {
 			});
 		},
 	});
+	// pbjs.onEvent("bidResponse", (winningBid) => {
+	// 	console.log("bidResponse", winningBid);
+	// });
+	// pbjs.onEvent("bidWon", (winningBid) => {
+	// 	console.log("bidWon", winningBid);
+	// });
 }
 
 // Track URL changes
@@ -61,7 +81,7 @@ let lastUrl = location.href;
 function checkUrlChange() {
 	if (location.href !== lastUrl) {
 		lastUrl = location.href;
-		pbjs.que.push(initPrebid);
+		pbjs.que.push(reqBids);
 	}
 }
 
@@ -77,6 +97,7 @@ function checkUrlChange() {
 window.addEventListener("popstate", checkUrlChange);
 
 pbjs.que.push(() => {
-	lastUrl = location.href; // reset baseline
-	initPrebid();
+	pbjs.addAdUnits(adUnits);
+	lastUrl = location.href;
+	reqBids();
 });
