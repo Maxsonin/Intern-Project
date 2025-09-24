@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import AuthPage from "../pages/AuthPage";
+import LogPage from "../pages/LogPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -17,4 +18,5 @@ export const router = createBrowserRouter([
 		],
 	},
 	{ path: "signin", element: <AuthPage /> },
+	{ path: "log", element: <LogPage /> },
 ]);

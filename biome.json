@@ -13,7 +13,9 @@
 			"!build/**/*",
 			"!dist/**/*",
 			"!.vercel/**/*",
-			"!.github/**/*"
+			"!.github/**/*",
+			"!public/**/*",
+			"!src/features/log/**/*"
 		]
 	},
 	"formatter": {
@@ -23,7 +25,10 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noDebugger": "off"
+			}
 		}
 	},
 	"javascript": {

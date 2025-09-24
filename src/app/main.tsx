@@ -5,6 +5,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router/router";
 import "./index.css";
 import { AuthProvider } from "./providers/AuthProvider";
+import "virtual:plugins";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) throw new Error("Root element not found");
