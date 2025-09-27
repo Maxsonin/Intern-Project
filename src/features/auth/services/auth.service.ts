@@ -1,9 +1,11 @@
 import type { SignInSchema, SignUpSchema } from "../schemas/authForm.schema";
 import type { User } from "../types/user.type";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const signup = async (data: SignUpSchema): Promise<User> => {
 	try {
-		const response = await fetch("http://localhost:3000/auth/signup", {
+		const response = await fetch(`${BASE_URL}/auth/signup`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data),
@@ -25,7 +27,7 @@ export const signup = async (data: SignUpSchema): Promise<User> => {
 
 export const signin = async (data: SignInSchema): Promise<User> => {
 	try {
-		const response = await fetch("http://localhost:3000/auth/signin", {
+		const response = await fetch(`${BASE_URL}/auth/signin`, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(data),
@@ -47,7 +49,7 @@ export const signin = async (data: SignInSchema): Promise<User> => {
 
 export const me = async (): Promise<User | null> => {
 	try {
-		const response = await fetch("http://localhost:3000/auth/me", {
+		const response = await fetch(`${BASE_URL}/auth/me`, {
 			credentials: "include",
 		});
 
@@ -63,7 +65,7 @@ export const me = async (): Promise<User | null> => {
 
 export const logout = async (): Promise<void> => {
 	try {
-		const response = await fetch("http://localhost:3000/auth/logout", {
+		const response = await fetch(`${BASE_URL}/auth/logout`, {
 			method: "POST",
 			credentials: "include",
 		});
