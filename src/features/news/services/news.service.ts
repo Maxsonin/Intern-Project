@@ -1,11 +1,13 @@
 import type { ArticleContent, News } from "../types/news.type";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export const fetchNewsfeed = async (
 	url?: string,
 	force?: boolean,
 ): Promise<News[]> => {
 	try {
-		const endpoint = new URL("http://localhost:3000/newsfeed");
+		const endpoint = new URL(`${BASE_URL}/newsfeed`);
 
 		if (url) endpoint.searchParams.set("url", url);
 		if (force) endpoint.searchParams.set("force", "1");
@@ -29,9 +31,7 @@ export const getArticleContent = async (
 	url: string,
 ): Promise<ArticleContent> => {
 	try {
-		const response = await fetch(
-			`http://localhost:3000/newsfeed/parse-url?url=${url}`,
-		);
+		const response = await fetch(`${BASE_URL}/newsfeed/parse-url?url=${url}`);
 		if (!response.ok) {
 			throw new Error(
 				`Failed to fetch parsed content: ${response.status} ${response.statusText}`,
