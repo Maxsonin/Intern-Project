@@ -59,7 +59,7 @@ export default function LineItemPage() {
 			{formHtml ? (
 				<div
 					className="line-item-form"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: <explanation>
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: <This is SSR content>
 					dangerouslySetInnerHTML={{ __html: formHtml }}
 				/>
 			) : (

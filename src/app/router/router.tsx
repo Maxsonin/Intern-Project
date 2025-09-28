@@ -1,11 +1,11 @@
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "@/shared/components/routers/ProtectedRoute";
 import MainLayout from "../layouts/MainLayout";
 import AuthPage from "../pages/AuthPage";
+import LineItemPage from "../pages/LineItemPage";
 import LogPage from "../pages/LogPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import LineItemPage from "../pages/LineItemPage";
-import ProtectedRoute from "@/shared/components/routers/ProtectedRoute";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const NewsPage = lazy(() => import("../pages/NewsPage"));
