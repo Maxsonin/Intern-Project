@@ -1,4 +1,4 @@
-import "/public/prebid10.10.0.js";
+import "/public/prebid.js";
 
 const adUnits = [
 	{

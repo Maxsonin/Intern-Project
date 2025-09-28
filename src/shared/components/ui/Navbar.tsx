@@ -31,9 +31,17 @@ const Navbar = () => {
 					))}
 
 					{user ? (
-						<div className="flex items-center space-x-4">
-							<span className="text-white font-medium">Hi, {user.name}</span>
-						</div>
+						<>
+							<div className="flex items-center space-x-4">
+								<span className="text-white font-medium">Hi, {user.name}</span>
+							</div>
+							<NavLink
+								to="/lineitem"
+								className="font-medium text-white hover:text-blue-300"
+							>
+								Create Line Item
+							</NavLink>
+						</>
 					) : (
 						<NavLink
 							to="/signin"

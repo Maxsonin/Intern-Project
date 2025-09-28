@@ -4,6 +4,8 @@ import MainLayout from "../layouts/MainLayout";
 import AuthPage from "../pages/AuthPage";
 import LogPage from "../pages/LogPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import LineItemPage from "../pages/LineItemPage";
+import ProtectedRoute from "@/shared/components/routers/ProtectedRoute";
 
 const HomePage = lazy(() => import("../pages/HomePage"));
 const NewsPage = lazy(() => import("../pages/NewsPage"));
@@ -15,6 +17,11 @@ export const router = createBrowserRouter([
 		children: [
 			{ path: "/", element: <HomePage /> },
 			{ path: "news", element: <NewsPage /> },
+
+			{
+				element: <ProtectedRoute />,
+				children: [{ path: "lineitem", element: <LineItemPage /> }],
+			},
 		],
 	},
 	{ path: "signin", element: <AuthPage /> },
