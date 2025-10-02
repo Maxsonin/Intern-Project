@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 export default function LineItemPage() {
 	const [formHtml, setFormHtml] = useState<string>("");
 
 	useEffect(() => {
-		fetch("http://localhost:3000/lineitemformpage", {
+		fetch(`${BASE_URL}/lineitemformpage`, {
 			credentials: "include",
 		})
 			.then((res) => res.text())
@@ -30,7 +32,7 @@ export default function LineItemPage() {
 			}
 
 			try {
-				const response = await fetch("http://localhost:3000/lineitemformpage", {
+				const response = await fetch(`${BASE_URL}/lineitemformpage`, {
 					method: "POST",
 					body: formData,
 					credentials: "include",

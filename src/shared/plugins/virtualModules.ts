@@ -15,7 +15,10 @@ function virtualModules(options: VirtualModulesOptions = {}): Plugin {
 		.map((f) => f.replace(/\.(ts|js)$/, ""));
 
 	const selected = options.selectedModules ?? [];
-	const modules = allModules.filter((m) => selected.includes(m));
+	let modules = allModules.filter((m) => selected.includes(m));
+	modules = modules.sort((a, b) =>
+		a === "event.module" ? -1 : b === "event.module" ? 1 : 0,
+	); // Ensure event.module is first if present to set up event listeners early
 
 	return {
 		name: "vite-virtual-modules",

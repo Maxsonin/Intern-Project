@@ -1,4 +1,4 @@
-import "/public/prebid.js";
+import "/public/pbjs.js";
 
 const adUnits = [
 	{
@@ -7,6 +7,7 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 	{
@@ -15,6 +16,7 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 	{
@@ -23,6 +25,7 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 	{
@@ -31,6 +34,7 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 	{
@@ -39,6 +43,7 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 	{
@@ -47,12 +52,17 @@ const adUnits = [
 		bids: [
 			{ bidder: "adtelligent", params: { aid: 350975 } },
 			{ bidder: "bidmatic", params: { source: 886409 } },
+			{ bidder: "lesko", params: { leskoid: 12345 } },
 		],
 	},
 ];
 
 window.pbjs = window.pbjs || {};
 pbjs.que = pbjs.que || [];
+
+pbjs.onEvent("auctionInit", (auction) => {
+	document.dispatchEvent(new CustomEvent("auctionInit", { detail: auction }));
+});
 
 function reqBids() {
 	pbjs.requestBids({
@@ -68,12 +78,24 @@ function reqBids() {
 			});
 		},
 	});
-	// pbjs.onEvent("bidResponse", (winningBid) => {
-	// 	console.log("bidResponse", winningBid);
-	// });
-	// pbjs.onEvent("bidWon", (winningBid) => {
-	// 	console.log("bidWon", winningBid);
-	// });
+	pbjs.onEvent("bidRequested", (requestedBid) => {
+		document.dispatchEvent(
+			new CustomEvent("bidRequested", { detail: requestedBid }),
+		);
+	});
+
+	pbjs.onEvent("bidResponse", (bid) => {
+		document.dispatchEvent(new CustomEvent("bidResponse", { detail: bid }));
+		console.log("bidResponse", bid);
+	});
+
+	pbjs.onEvent("bidWon", (winningBid) => {
+		document.dispatchEvent(new CustomEvent("bidWon", { detail: winningBid }));
+	});
+
+	pbjs.onEvent("auctionEnd", (auction) => {
+		document.dispatchEvent(new CustomEvent("auctionEnd", { detail: auction }));
+	});
 }
 
 // Track URL changes
@@ -101,3 +123,5 @@ pbjs.que.push(() => {
 	lastUrl = location.href;
 	reqBids();
 });
+
+window.dispatchEvent(new Event("LoadAdModule"));
