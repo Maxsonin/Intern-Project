@@ -86,7 +86,6 @@ function reqBids() {
 
 	pbjs.onEvent("bidResponse", (bid) => {
 		document.dispatchEvent(new CustomEvent("bidResponse", { detail: bid }));
-		console.log("bidResponse", bid);
 	});
 
 	pbjs.onEvent("bidWon", (winningBid) => {
