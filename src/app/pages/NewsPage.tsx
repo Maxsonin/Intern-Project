@@ -1,4 +1,5 @@
-import { useState } from "react";
+import * as Sentry from "@sentry/react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import NewsCard from "@/features/news/components/NewsCard";
 import { useArticleContent } from "@/features/news/hooks/useArticleContent";
@@ -21,6 +22,13 @@ const NewsPage = () => {
 
 	const { articleContent, isArticleContentLoading, isArticleContentError } =
 		useArticleContent(selectedNews?.link);
+
+	useEffect(() => {
+		if (isNewsfeedError || newsfeed.length === 0) {
+			Sentry.captureException(new Error("Error fetching news"));
+			console.error("Error fetching news");
+		}
+	}, [isNewsfeedError, newsfeed]);
 
 	return (
 		<div className="place-items-center">
