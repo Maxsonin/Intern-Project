@@ -9,6 +9,8 @@ export type VirtualModulesOptions = {
 function virtualModules(options: VirtualModulesOptions = {}): Plugin {
 	const modulesDir = path.resolve(__dirname, "../modules");
 
+	console.log("Env modules:", options.selectedModules);
+
 	const allModules = fs
 		.readdirSync(modulesDir)
 		.filter((f) => f.endsWith(".ts") || f.endsWith(".js"))
@@ -19,6 +21,9 @@ function virtualModules(options: VirtualModulesOptions = {}): Plugin {
 	modules = modules.sort((a, b) =>
 		a === "event.module" ? -1 : b === "event.module" ? 1 : 0,
 	); // Ensure event.module is first if present to set up event listeners early
+
+	console.log("All modules found:", allModules);
+	console.log("Selected modules:", modules);
 
 	return {
 		name: "vite-virtual-modules",
@@ -31,8 +36,10 @@ function virtualModules(options: VirtualModulesOptions = {}): Plugin {
 		load(id) {
 			if (id === "virtual:plugins") {
 				const imports = modules
-					.map((m) => `import "${path.posix.join("/src/shared/modules", m)}";`)
+					.map((m) => `import "@/shared/modules/${m}";`)
 					.join("\n");
+
+				console.log("Generated virtual imports:\n", imports);
 
 				return `${imports}`;
 			}
