@@ -41,6 +41,12 @@ const Navbar = () => {
 							>
 								Create Line Item
 							</NavLink>
+							<NavLink
+								to="/stats"
+								className="font-medium text-white hover:text-blue-300"
+							>
+								Stats
+							</NavLink>
 						</>
 					) : (
 						<NavLink

@@ -27,7 +27,11 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noDebugger": "off"
+				"noDebugger": "off",
+				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
 			}
 		}
 	},
