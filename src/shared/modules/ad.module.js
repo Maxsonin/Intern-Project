@@ -73,6 +73,11 @@ function reqBids() {
 				const iframe = document.getElementById(bid.adUnitCode);
 				if (iframe?.contentWindow) {
 					const doc = iframe.contentWindow.document;
+
+					doc.open();
+					doc.write("");
+					doc.close();
+
 					pbjs.renderAd(doc, bid.adId);
 				}
 			});
