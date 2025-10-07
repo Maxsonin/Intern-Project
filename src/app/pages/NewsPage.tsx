@@ -24,11 +24,11 @@ const NewsPage = () => {
 		useArticleContent(selectedNews?.link);
 
 	useEffect(() => {
-		if (isNewsfeedError || newsfeed.length === 0) {
+		if (newsfeed.length === 0) {
 			Sentry.captureException(new Error("Error fetching news"));
 			console.error("Error fetching news");
 		}
-	}, [isNewsfeedError, newsfeed]);
+	}, [newsfeed]);
 
 	return (
 		<div className="place-items-center">
