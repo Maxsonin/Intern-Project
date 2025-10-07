@@ -37,24 +37,27 @@ const NewsPage = () => {
 				title="ad1"
 				scrolling="no"
 			></iframe>
-			{isNewsfeedLoading || isNewsfeedError || newsfeed.length === 0 ? (
+			{isNewsfeedLoading || isNewsfeedError ? (
 				<>
 					{isNewsfeedError && <div className="p-4 text-red-500">Error</div>}
 					{isNewsfeedLoading && <div className="p-4">Loading...</div>}
-					{newsfeed.length === 0 && <div className="p-4">No news here🤷‍♂️</div>}
 				</>
 			) : (
 				<section>
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-						{newsfeed.map((news) => (
-							<NewsCard
-								key={news.id}
-								title={news.title}
-								details={news.description}
-								image={news.thumbnail}
-								onReadMore={() => setSelectedNews(news)}
-							/>
-						))}
+						{newsfeed.length === 0 ? (
+							<div className="p-4">No news here🤷‍♂️</div>
+						) : (
+							newsfeed.map((news) => (
+								<NewsCard
+									key={news.id}
+									title={news.title}
+									details={news.description}
+									image={news.thumbnail}
+									onReadMore={() => setSelectedNews(news)}
+								/>
+							))
+						)}
 					</div>
 
 					{selectedNews && (
