@@ -24,11 +24,10 @@ const NewsPage = () => {
 		useArticleContent(selectedNews?.link);
 
 	useEffect(() => {
-		if (newsfeed.length === 0) {
+		if (isNewsfeedError) {
 			Sentry.captureException(new Error("Error fetching news"));
-			console.error("Error fetching news");
 		}
-	}, [newsfeed]);
+	}, [isNewsfeedError]);
 
 	return (
 		<div className="place-items-center">
@@ -38,10 +37,11 @@ const NewsPage = () => {
 				title="ad1"
 				scrolling="no"
 			></iframe>
-			{isNewsfeedLoading || isNewsfeedError ? (
+			{isNewsfeedLoading || isNewsfeedError || newsfeed.length === 0 ? (
 				<>
 					{isNewsfeedError && <div className="p-4 text-red-500">Error</div>}
 					{isNewsfeedLoading && <div className="p-4">Loading...</div>}
+					{newsfeed.length === 0 && <div className="p-4">No news here🤷‍♂️</div>}
 				</>
 			) : (
 				<section>
